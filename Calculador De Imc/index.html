@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calcule seu IMC</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,800&family=Open+Sans:wght@400;700&display=swap');
+:root {
+    --cor-primaria:aquamarine;
+    --cor-primaria-preta: rgb(44, 34, 34);
+}
+
+* {
+box-sizing: border-box;
+outline: 0;
+
+} 
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--cor-primaria);
+    font-family: 'Open sans' sans-serif;
+    font-size: 1.3em;
+    line-height: 1.5em;
+}
+
+.conteiner {
+max-width: 640px;
+margin: 50px auto 1px;
+background: white;
+padding: 20px;
+border-radius: 20px;
+}
+
+form input, form label, form button {
+display: block;
+width: 100%;
+margin-bottom:  10px;
+}
+
+form input {
+    font-size: 24px;
+    height: 50px;
+    padding: 0 20px;
+}
+
+form button {
+    height: 40px;
+    display: block;
+    font-size: 24px;    
+    background: var(--cor-primaria);
+    color: white;
+    border: 2px solid black;
+    padding: 2;
+    margin-top: 32px;
+    cursor: pointer;
+    
+}
+
+form button:hover {
+    background: var(--cor-primaria-preta);
+
+}
+
+form button:active {
+    background: red;
+
+}
+
+form input:focus {
+    outline: 1.8px solid var(--cor-primaria);
+
+}
+
+.paragrafo-resultado, .bad {
+    background-color: var(--cor-primaria);
+    padding: 10px 20px;
+    display: block;
+    text-align: center;
+ 
+}
+
+.bad {
+    background: red;
+    font-size:32px;
+}
+
+a {
+    text-decoration: none;
+    color:rgb(rgb(63, 36, 36));
+    font-size:1.7rem ;
+}
+
+
+
+
+    </style>
+</head>
+
+<body>
+
+    <section class="conteiner">
+        <h1>
+            Calcule Seu IMC
+        </h1>
+                  
+           <form action="" id="formulario">
+               <label for="peso"> Peso</label>
+               <input type="text" id="peso" name="peso" placeholder="Coloque Seu Peso Aqui"> 
+               <label for="altura">Altura</label>
+               <input type="text" id="altura" name="altura" placeholder="Ex: 1.70 , Por Favor Sempre Colocar O Ponto">
+               <button type="submit">Enviar</button>
+            </form>
+            <div id="resultado"></div>
+        </section>
+
+  
+
+
+
+
+
+
+
+    <script>
+        const form = document.querySelector ('#formulario');
+
+form.addEventListener('submit', function (event) { 
+    event.preventDefault();
+    const inputPeso = event.target.querySelector('#peso');
+    const inputAltura = event.target.querySelector('#altura');
+
+   const peso = Number (inputPeso.value); 
+   const altura = Number (inputAltura.value); 
+  
+   console.log(peso, altura);
+
+ if (!peso) {
+     setResultado ('Peso Invalido!', false);
+     return;
+ }
+   
+ if (!altura) {
+     setResultado ('Altura Invalido!', false);
+     return;
+ }
+
+  const imc = getImc(peso, altura);
+  const nivelImc = getNivelImc(imc);
+
+  const msg = `Seu IMC é ${imc}  (${nivelImc}) ` ;
+
+ setResultado(msg, true);
+
+});
+
+function getNivelImc (imc) {
+const nivel = ['Abaixo Do Peso', 'Peso Normal', 'Sobrepeso', 
+'Obesidade Grau 1', 'Obesidade Grau 2', 'Obesidade Grau 3', ];
+
+if (imc >= 39.9)      return nivel [5];
+if (imc >= 34.9 )     return nivel [4];
+if (imc >= 29.9 )     return nivel [3];
+if (imc >= 24.9 )     return nivel [2];
+if (imc >= 18.5 )     return nivel [1];
+if (imc <  18.5 )      return nivel [0];
+     
+}
+
+
+
+function getImc (peso, altura) {
+   const imc = peso / altura ** 2;
+   return imc.toFixed(2);
+}
+
+
+
+
+
+
+
+function criaP () {
+    const p = document.createElement('p');
+   return p;
+    
+}
+
+function setResultado (msg, isValid) {
+    const resultado = document.querySelector('#resultado');
+    resultado.innerHTML = '';
+
+    const p = criaP ();
+    
+    
+    if (isValid){ 
+        
+    p.classList.add('paragrafo-resultado');
+    } else {
+    p.classList.add('bad');
+
+    }
+
+
+    p.innerHTML = msg;
+    resultado.appendChild (p);
+}   
+
+
+    </script>
+
+    <footer class="conteiner">
+   <p>
+<a href="https://www.instagram.com/gustavo_kkrauss/" target="_blank" >Esse É Um Site Simples Feito Por <span>Gustavo Kraus </span>  </a> ❤️ 
+   </p>
+
+    </footer>
+</body>
+
+</html>
